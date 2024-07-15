@@ -5,14 +5,13 @@ import ProductListPage from "./pages/ProductListPage";
 
 const AppContainer = styled.div`
     font-family: "Montserrat", sans-serif;
-    max-width: 430px;
-    margin: 0 auto;
-    padding: 20px;
-
-    @media (max-width: 430px) { 
-        overflow-x: auto;
-        background-color: #f0f0f0;
-    }
+    width: 100%;
+    min-height: 100vh; /* 화면 전체 높이를 최소 높이로 설정 */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0;
 `
 
 const App = () => {

@@ -3,11 +3,7 @@ import styled from 'styled-components';
 import ProductList from '../components/ProductList';
 
 const PageContainer = styled.div`
-    max-width: 100%;
-    width: 430px;
-    margin: 0 auto;
     padding: 23px;
-    box-sizing: border-box;
 `;
 
 const ProductListPage = ({ addToCart }) => {

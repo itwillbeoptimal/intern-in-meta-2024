@@ -5,6 +5,7 @@ const ProductCardContainer = styled.div`
     border: 1px solid #ddd;
     border-radius: 12px;
     text-align: left;
+    overflow: hidden;
 `;
 
 const ProductImage = styled.img`
@@ -29,6 +30,7 @@ const ProductDescription = styled.div`
     font-size: 12px;
     font-weight: 400;
     margin: 0 0 7px;
+    white-space: nowrap;
 `;
 
 const ProductPrice = styled.div`
@@ -41,12 +43,13 @@ const AddButton = styled.button`
     background-color: ${props => props.isAdded ? '#d8d8d8' : 'black'};
     color: ${props => props.isAdded ? 'black' : 'white'};
     border: none;
-    width: 42px;
-    height: 21px;
+    width: 48px;
+    height: 24px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 12px;
     font-weight: bold;
+    letter-spacing: -0.5px;
 `;
 
 const ProductCard = ({ id, brand, description, price, imageUrl, addToCart }) => {
