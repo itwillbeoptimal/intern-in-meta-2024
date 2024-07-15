@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import styled from 'styled-components';
+import Header from "./components/Header";
+import ProductListPage from "./pages/ProductListPage";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const AppContainer = styled.div`
+    font-family: "Montserrat", sans-serif;
+    max-width: 430px;
+    margin: 0 auto;
+    padding: 20px;
+
+    @media (max-width: 430px) { 
+        overflow-x: auto;
+        background-color: #f0f0f0;
+    }
+`
+
+const App = () => {
+    const [cartItems, setCartItems] = useState([]);
+
+    const addToCart = (productId, isAdded) => {
+        if (!isAdded) {
+            const updatedCartItems = cartItems.filter(item => item.id !== productId);
+            setCartItems(updatedCartItems);
+        } else {
+            const productToAdd = {
+                id: productId,
+                quantity: 1
+            };
+            setCartItems([...cartItems, productToAdd]);
+        }
+    };
+
+    return (
+        <AppContainer>
+            <Header cartItems={cartItems} />
+            <ProductListPage addToCart={addToCart} />
+        </AppContainer>
+    );
+};
 
 export default App;
