@@ -32,13 +32,13 @@ const CartInfo = styled.div`
     font-weight: 700;
 `;
 
-const Header = ({ cartItems }) => {
+const Header = ({ cartItems = [] }) => {
     const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
     return (
         <HeaderContainer>
             <BasketContainer>
-                <BasketIcon />
+                {/*<BasketIcon />*/}
             </BasketContainer>
             {cartItemCount !== 0 && <CartInfo>{cartItemCount}</CartInfo>}
         </HeaderContainer>
