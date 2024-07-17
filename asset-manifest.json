@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/intern-in-meta-2024/static/css/main.58462fbc.css",
+    "main.js": "/intern-in-meta-2024/static/js/main.da30dcbd.js",
+    "index.html": "/intern-in-meta-2024/index.html",
+    "static/media/basket_icon.svg": "/intern-in-meta-2024/static/media/basket_icon.5b90360df170a195ad0dd9c3b873051e.svg",
+    "main.58462fbc.css.map": "/intern-in-meta-2024/static/css/main.58462fbc.css.map",
+    "main.da30dcbd.js.map": "/intern-in-meta-2024/static/js/main.da30dcbd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.58462fbc.css",
+    "static/js/main.da30dcbd.js"
+  ]
+}
