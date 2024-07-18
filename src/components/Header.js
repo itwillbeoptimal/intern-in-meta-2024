@@ -38,7 +38,7 @@ const Header = ({ cartItems = [] }) => {
     return (
         <HeaderContainer>
             <BasketContainer>
-                {/*<BasketIcon />*/}
+                <BasketIcon />
             </BasketContainer>
             {cartItemCount !== 0 && <CartInfo>{cartItemCount}</CartInfo>}
         </HeaderContainer>
