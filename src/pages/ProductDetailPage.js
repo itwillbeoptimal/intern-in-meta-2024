@@ -7,20 +7,28 @@ import { ReactComponent as PlusButton } from '../assets/icons/plus_button.svg';
 const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 23px;
   align-items: center;
 `;
 
 const ProductImage = styled.img`
-  width: 380px;
+  width: 350px;
   border-radius: 20px;
   object-fit: cover;
+
+  @media (max-width: 400px) {
+    width: 300px;
+  }
 `;
 
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 380px;
+  width: 350px;
+  
+  @media (max-width: 400px) {
+    width: 300px;
+  }
 `;
 
 const ProductInfo = styled.div`
@@ -88,7 +96,7 @@ const ProductDetailPage = ({ products, addToCart }) => {
           <QuantityButton onClick={handleDecrease}>
             <MinusButton />
           </QuantityButton>
-          <div style={{ fontSize: '18px', fontFamily: 'Montserrat', fontWeight: 600, padding: '15px' }}>{quantity.toString().padStart(2, '0')}</div>
+          <div style={{ fontSize: '18px', fontFamily: 'Montserrat', fontWeight: 600, padding: '15px', width: '1em', textAlign: 'center' }}>{quantity.toString().padStart(2, '0')}</div>
           <QuantityButton onClick={handleIncrease}>
             <PlusButton />
           </QuantityButton>
