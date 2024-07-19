@@ -72,7 +72,7 @@ const ProductCard = ({id, brand, description, price, imageUrl, addToCart}) => {
         <ProductDescription>{description}</ProductDescription>
         <ProductPrice>{price}원</ProductPrice>
         <AddButton onClick={handleAddToCart} isAdded={isAdded}>
-          {isAdded ? '담음!' : '담기'}
+          {isAdded ? '담김!' : '담기'}
         </AddButton>
       </ProductInfo>
     </ProductCardContainer>
