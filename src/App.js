@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import Header from "./components/Header";
 import ProductListPage from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import Modal from './components/Modal';
+import MyCardsModal from './modals/MyCardsModal';
+import AddCardModal from './modals/AddCardModal';
 
 const AppContainer = styled.div`
   font-family: "Montserrat", sans-serif;
@@ -18,6 +21,8 @@ const AppContainer = styled.div`
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [modalStack, setModalStack] = useState([]);
 
   const products = [
     { id: 1, brand: '브랜드A', description: '편안하고 착용감이 좋은 신발', price: '35,000', imageUrl: process.env.PUBLIC_URL + '/assets/images/product_image1.jpg' },
@@ -44,14 +49,70 @@ const App = () => {
     }
   };
 
+  const addCard = (cardData) => {
+    const newCard = {
+      ...cardData,
+      id: Date.now().toString(), // 고유 ID 생성
+    };
+    setCards(prevCards => [...prevCards, newCard]);
+    closeModal(); // 카드 추가 후 모달 닫기
+  };
+
+  const selectCard = (selectedCard) => {
+    // 여기에 실제 결제 로직을 구현합니다.
+    console.log('결제 진행:', selectedCard);
+    // 결제 성공 후 카트 비우기
+    setCartItems([]);
+  };
+
+  const openMyCardsModal = () => {
+    setModalStack(prevStack => [
+      ...prevStack,
+      {
+        title: '나의 카드 목록',
+        content: <MyCardsModal cards={cards} openAddCardModal={openAddCardModal} onSelectCard={selectCard} />,
+        isOpen: true
+      }
+    ]);
+  };
+
+  const openAddCardModal = () => {
+    setModalStack(prevStack => [
+      ...prevStack,
+      {
+        title: '새로운 카드 등록',
+        content: <AddCardModal onAddCard={addCard} onClose={closeModal} />,
+        isOpen: true
+      }
+    ]);
+  };
+
+  const closeModal = () => {
+    setModalStack([]);
+  };
+
+  const goBack = () => {
+    setModalStack(prevStack => prevStack.slice(0, -1));
+  };
+
   return (
     <Router basename={process.env.PUBLIC_URL}>
       <AppContainer>
         <Header cartItems={cartItems} />
         <Routes>
-          <Route path="/" element={<ProductListPage products={products} addToCart={addToCart} />} />
+          <Route path="/" element={<ProductListPage products={products} addToCart={addToCart} openMyCardsModal={openMyCardsModal} />} />
           <Route path="/product/:id" element={<ProductDetailPage products={products} addToCart={addToCart} />} />
         </Routes>
+        {modalStack.length > 0 && (
+          <Modal
+            onClose={closeModal}
+            onBack={goBack}
+            title={modalStack[modalStack.length - 1].title}
+            showBackButton={modalStack.length > 1}
+          >
+            {modalStack[modalStack.length - 1].content}
+          </Modal>
+        )}
       </AppContainer>
     </Router>
   );

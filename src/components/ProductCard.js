@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ProductCardContainer = styled(Link)`
   border: 1px solid #ddd;
@@ -53,20 +53,39 @@ const AddButton = styled.button`
   font-size: 12px;
   font-weight: bold;
   letter-spacing: -0.5px;
+  margin-right: 9px;
 `;
 
-const ProductCard = ({id, brand, description, price, imageUrl, addToCart}) => {
+const BuyButton = styled.button`
+  background-color: #FFEF64;
+  color: black;
+  border: none;
+  width: 48px;
+  height: 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+`;
+
+const ProductCard = ({ id, brand, description, price, imageUrl, addToCart, openMyCardsModal }) => {
   const [isAdded, setIsAdded] = useState(false);
 
   const handleAddToCart = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setIsAdded(!isAdded);
     addToCart(id, !isAdded);
   };
 
+  const handleBuy = (e) => {
+    e.preventDefault();
+    openMyCardsModal();
+  };
+
   return (
     <ProductCardContainer to={`/product/${id}`}>
-      <ProductImage src={imageUrl}/>
+      <ProductImage src={imageUrl} />
       <ProductInfo>
         <ProductBrand>{brand}</ProductBrand>
         <ProductDescription>{description}</ProductDescription>
@@ -74,6 +93,9 @@ const ProductCard = ({id, brand, description, price, imageUrl, addToCart}) => {
         <AddButton onClick={handleAddToCart} isAdded={isAdded}>
           {isAdded ? '담김!' : '담기'}
         </AddButton>
+        <BuyButton onClick={handleBuy}>
+          구매
+        </BuyButton>
       </ProductInfo>
     </ProductCardContainer>
   );

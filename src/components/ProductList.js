@@ -8,13 +8,14 @@ const ProductListContainer = styled.div`
   gap: 10px;
 `;
 
-const ProductList = ({products, addToCart}) => (
+const ProductList = ({products, addToCart, openMyCardsModal}) => (
   <ProductListContainer>
     {products.map((product) => (
       <ProductCard
         key={product.id}
         {...product}
         addToCart={addToCart}
+        openMyCardsModal={openMyCardsModal}
       />
     ))}
   </ProductListContainer>
