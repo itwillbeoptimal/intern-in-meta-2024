@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import CreditCard from "../components/CreditCard";
 
@@ -16,10 +16,22 @@ const Form = styled.form`
   max-width: 350px;
 `;
 
+const Label = styled.div`
+  color: #525252;
+  font-family: Arial;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -1.02px;
+  margin: 8.5px 0;
+`;
+
 const Input = styled.input`
   margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #ECEBF1;
+  border: none;
   border-radius: 4px;
   font-family: Arial;
 `;
@@ -40,13 +52,17 @@ const ExpiryInputContainer = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  background-color: #000;
-  color: #fff;
-  padding: 10px 20px;
+  margin-top: 20px;
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  background: #242424;
+  box-shadow: 0 10px 20px 0 rgba(48, 48, 48, 0.1);
+  color: white;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
 `;
 
 const CardPreview = styled.div`
@@ -76,7 +92,20 @@ const AddCardModal = ({ onAddCard, onClose }) => {
 
   const handleExpiryMonthChange = (e) => {
     let value = e.target.value.replace(/\D/g, '');
-    setExpiryMonth(value.slice(0, 2));
+
+    if (value.length > 2) {
+      value = value.slice(0, 2);
+    }
+
+    if (value.length === 1) {
+      setExpiryMonth(value);
+    } else if (value.length === 2) {
+      if (parseInt(value, 10) > 12) {
+        setExpiryMonth('12');
+      } else {
+        setExpiryMonth(value);
+      }
+    }
   };
 
   const handleExpiryMonthBlur = () => {
@@ -96,13 +125,34 @@ const AddCardModal = ({ onAddCard, onClose }) => {
     setPasswordPrefix(newPrefix);
   };
 
+  const handleCardOwnerChange = (e) => {
+    const value = e.target.value;
+    const filteredValue = value
+      .toUpperCase()
+      .replace(/[^A-Z\s]/g, '');
+    setCardOwner(filteredValue);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const fullCardNumber = cardNumber.join('');
-    const expiry = expiryMonth && expiryYear ? `${expiryMonth} / ${expiryYear}` : '';
+
+    if (fullCardNumber.length !== 16) {
+      alert("카드 번호를 정확히 입력하여 주십시오.");
+      return;
+    }
+    if (expiryYear.length !== 2) {
+      alert("만료일 연도를 정확히 입력하여 주십시오.");
+      return;
+    }
+    if (cvc.length !== 3) {
+      alert("보안 코드를 정확히 입력하여 주십시오.");
+      return;
+    }
+
     const fullPasswordPrefix = passwordPrefix.join('');
-    onAddCard({ cardNumber: fullCardNumber, expiry, cvc, cardOwner, passwordPrefix: fullPasswordPrefix });
-    onClose();
+    onAddCard({ cardNumber: fullCardNumber, expiry: `${expiryMonth} / ${expiryYear}`, cvc, cardOwner, passwordPrefix: fullPasswordPrefix });
   };
 
   return (
@@ -117,6 +167,7 @@ const AddCardModal = ({ onAddCard, onClose }) => {
         />
       </CardPreview>
       <Form onSubmit={handleSubmit}>
+        <Label> 카드 번호 </Label>
         <CardNumberContainer>
           {[0, 1, 2, 3].map((index) => (
             <Input
@@ -131,12 +182,13 @@ const AddCardModal = ({ onAddCard, onClose }) => {
             />
           ))}
         </CardNumberContainer>
+        <Label> 만료일 </Label>
         <ExpiryInputContainer>
           <Input
             style={{ width: "3ch", textAlign: "center" }}
             type="text"
-            placeholder="MM"
             value={expiryMonth}
+            placeholder="MM"
             onChange={handleExpiryMonthChange}
             onBlur={handleExpiryMonthBlur}
             ref={expiryMonthRef}
@@ -146,45 +198,66 @@ const AddCardModal = ({ onAddCard, onClose }) => {
           <Input
             style={{ width: "3ch", textAlign: "center" }}
             type="text"
-            placeholder="YY"
             value={expiryYear}
+            placeholder="YY"
             onChange={handleExpiryYearChange}
             ref={expiryYearRef}
             required
             maxLength="2"
           />
         </ExpiryInputContainer>
+        <Label> 보안 코드(CVC/CVV) </Label>
         <Input
-          style={{ width: "4ch", textAlign: "center" }}
+          style={{ width: "4.5ch", textAlign: "center", letterSpacing: 3 }}
           type="password"
-          placeholder="CVC"
           value={cvc}
           onChange={(e) => setCvc(e.target.value.replace(/\D/g, '').slice(0, 3))}
           required
           maxLength="3"
         />
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+          <Label> 카드 소유자 이름 </Label>
+          <Label> {cardOwner.length + " / 30"} </Label>
+        </div>
         <Input
           type="text"
-          placeholder="카드 소유자 이름"
           value={cardOwner}
-          onChange={(e) => setCardOwner(e.target.value)}
+          placeholder="카드에 표시된 이름과 동일하게 입력하세요."
+          onChange={handleCardOwnerChange}
           required
           maxLength="30"
         />
+        <Label> 카드 비밀번호 </Label>
         <PasswordInputContainer>
           {[0, 1].map((index) => (
             <Input
-              style={{ width: "1.5ch", textAlign: "center" }}
-              key={index}
+              style={{width: "1.5ch", textAlign: "center"}}
               type="password"
+              key={index}
               value={passwordPrefix[index]}
               onChange={(e) => handlePasswordPrefixChange(index, e.target.value)}
               required
               maxLength="1"
             />
           ))}
+          <div style={{
+            marginBottom: 10,
+            padding: 10,
+            borderRadius: 4,
+            fontFamily: "Arial"
+          }}>
+            •
+          </div>
+          <div style={{
+            marginBottom: 10,
+            padding: 10,
+            borderRadius: 4,
+            fontFamily: "Arial"
+          }}>
+            •
+          </div>
         </PasswordInputContainer>
-        <SubmitButton type="submit">이 카드 정보 등록하기</SubmitButton>
+        <SubmitButton type="submit">작성 완료</SubmitButton>
       </Form>
     </ModalContainer>
   );

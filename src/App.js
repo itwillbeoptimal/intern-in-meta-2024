@@ -52,16 +52,14 @@ const App = () => {
   const addCard = (cardData) => {
     const newCard = {
       ...cardData,
-      id: Date.now().toString(), // 고유 ID 생성
+      id: Date.now().toString()
     };
     setCards(prevCards => [...prevCards, newCard]);
-    closeModal(); // 카드 추가 후 모달 닫기
+    closeModal();
   };
 
   const selectCard = (selectedCard) => {
-    // 여기에 실제 결제 로직을 구현합니다.
     console.log('결제 진행:', selectedCard);
-    // 결제 성공 후 카트 비우기
     setCartItems([]);
   };
 

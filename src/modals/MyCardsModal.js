@@ -21,39 +21,38 @@ const CardList = styled.ul`
 const CardItem = styled.li`
   cursor: pointer;
   transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.05);
-  }
 `;
 
 const AddCardButton = styled.div`
   align-content: center;
   background-color: #E5E5E5;
-  text-align: center;
-  color: #575757;
-  font-size: 30px;
-  width: 200px;
-  height: 120px;
   border: none;
   border-radius: 5px;
+  color: #575757;
   cursor: pointer;
   display: flex;
+  font-size: 30px;
+  height: 120px;
   justify-content: center;
+  text-align: center;
+  width: 200px;
   align-items: center;
 `;
 
+
 const PayButton = styled.button`
-  background-color: #000;
-  color: #fff;
-  padding: 10px 20px;
+  background-color: #FFEF64;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   cursor: pointer;
-  margin-top: 20px;
+  font-size: 12px;
+  height: auto;
+  margin: 20px 0;
+  padding: 10px 20px;
+  width: 200px;
 `;
 
-const MyCardsModal = ({ cards, openAddCardModal, onSelectCard }) => {
+const MyCardsModal = ({cards, openAddCardModal, onSelectCard}) => {
   const handlePayment = (card) => {
     onSelectCard(card);
   };
@@ -69,12 +68,15 @@ const MyCardsModal = ({ cards, openAddCardModal, onSelectCard }) => {
           {cards.map((card, index) => (
             <CardItem key={index} onClick={() => handlePayment(card)}>
               <CreditCard
-                cardNumber={card.cardNumber}
+                cardNumber={String(card.cardNumber)}
                 expiryDate={card.expiry}
                 cardholderName={card.cardOwner}
                 securityCode={card.cvc}
                 passwordPrefix={card.passwordPrefix}
               />
+              <PayButton onClick={() => handlePayment(cards[index])}>
+                이 카드로 결제하기
+              </PayButton>
             </CardItem>
           ))}
         </CardList>
@@ -82,11 +84,6 @@ const MyCardsModal = ({ cards, openAddCardModal, onSelectCard }) => {
       <AddCardButton onClick={openAddCardModal}>
         +
       </AddCardButton>
-      {cards.length > 0 && (
-        <PayButton onClick={() => handlePayment(cards[0])}>
-          이 카드로 결제하기
-        </PayButton>
-      )}
     </ModalContainer>
   );
 };

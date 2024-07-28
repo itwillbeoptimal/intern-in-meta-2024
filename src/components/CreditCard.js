@@ -8,24 +8,41 @@ const CardWrapper = styled.div`
   border-radius: 5px;
   padding: 20px;
   color: white;
+  font-family: Arial;
   box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.25);
   position: relative;
   overflow: hidden;
 `;
 
 const CardChip = styled.div`
-  width: 35px;
-  height: 25px;
+  width: 30px;
+  height: 20px;
   background-color: #CBBA64;
   border-radius: 3px;
   margin-top: 20px;
   margin-bottom: 10px;
 `;
 
-const CardNumber = styled.div`
+const CardNumberWrapper = styled.div`
   font-size: 14px;
-  letter-spacing: 0.5px;
   margin-bottom: 5px;
+  width: 100%;
+  overflow: hidden;
+`;
+
+const CardNumber = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 13px;
+  text-align: center;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+`;
+
+const CardNumberItem = styled.span`
+  display: inline-block;
 `;
 
 const CardInfo = styled.div`
@@ -38,37 +55,50 @@ const CardInfoItem = styled.div`
 `;
 
 const formatCardNumber = (number) => {
+  if (typeof number !== 'string') {
+    number = String(number);
+  }
   number = number.replace(/\D/g, '');
   const parts = number.match(/.{1,4}/g) || [];
 
-  if (parts.length === 1) {
-    return `${parts[0]}`;
-  } else if (parts.length === 2) {
-    return `${parts[0]} ${parts[1]}`;
-  } else if (parts.length === 3) {
-    return `${parts[0]} ${parts[1]} ${'●'.repeat(4)}`;
-  } else if (parts.length >= 4) {
-    return `${parts[0]} ${parts[1]} ${'●'.repeat(4)} ${'●'.repeat(4)}`;
-  }
-  return number;
+  return parts.map((part, index) => (
+    index < 2 ? part : '●'.repeat(part.length)
+  )).join(' ');
 };
 
-const CreditCard = ({ cardNumber = '', expiryDate = '', cardholderName = '' }) => {
-  const isCardNumberComplete = cardNumber.every(part => part.length === 4);
+const CreditCard = ({cardNumber = '', expiryDate = '', cardholderName = ''}) => {
+  const cardNumberString = String(cardNumber).replace(/\D/g, '');
+  const isCardNumberComplete = cardNumberString.length === 16;
+
+  const formattedCardNumber = isCardNumberComplete ? formatCardNumber(cardNumberString) : '';
+
+  const cardNumberGroups = formattedCardNumber.split(' ').map((group, idx) => (
+    <CardNumberItem key={idx}>{group}</CardNumberItem>
+  ));
+
   const formattedExpiryDate = expiryDate.trim() ? expiryDate : '';
 
   return (
     <CardWrapper>
-      <CardChip />
-      {isCardNumberComplete && (
-        <CardNumber>{formatCardNumber(cardNumber.join(''))}</CardNumber>
-      )}
+      <CardChip/>
+      {/*{isCardNumberComplete && (*/}
+      {/*  <CardNumberWrapper>*/}
+      {/*    <CardNumber>*/}
+      {/*      {cardNumberGroups}*/}
+      {/*    </CardNumber>*/}
+      {/*  </CardNumberWrapper>*/}
+      {/*)}*/}
+      <CardNumberWrapper>
+        <CardNumber>
+          {isCardNumberComplete ? cardNumberGroups : ' '}
+        </CardNumber>
+      </CardNumberWrapper>
       <CardInfo>
         <CardInfoItem>
-          <div>{cardholderName}</div>
+          <div>{cardholderName === '' ? 'NAME' : cardholderName}</div>
         </CardInfoItem>
         <CardInfoItem>
-          <div>{formattedExpiryDate}</div>
+          <div>{formattedExpiryDate === '' ? 'MM / YY' : formattedExpiryDate}</div>
         </CardInfoItem>
       </CardInfo>
     </CardWrapper>

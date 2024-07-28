@@ -59,7 +59,6 @@ const AddToCartButton = styled.button`
   color: white;
   border: none;
   cursor: pointer;
-  font-family: Montserrat;
   font-size: 20px;
   font-weight: 600;
 `;
@@ -78,7 +77,6 @@ const ProductDetailPage = ({ products, addToCart }) => {
   };
 
   const handleAddToCart = () => {
-    // 장바구니 구현 후 변경
     // addToCart(product.id, quantity);
     addToCart(product.id, 0);
   };
