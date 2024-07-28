@@ -81,13 +81,6 @@ const CreditCard = ({cardNumber = '', expiryDate = '', cardholderName = ''}) => 
   return (
     <CardWrapper>
       <CardChip/>
-      {/*{isCardNumberComplete && (*/}
-      {/*  <CardNumberWrapper>*/}
-      {/*    <CardNumber>*/}
-      {/*      {cardNumberGroups}*/}
-      {/*    </CardNumber>*/}
-      {/*  </CardNumberWrapper>*/}
-      {/*)}*/}
       <CardNumberWrapper>
         <CardNumber>
           {isCardNumberComplete ? cardNumberGroups : ' '}
