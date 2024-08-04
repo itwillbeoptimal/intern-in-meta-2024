@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.16.x]
-        # 필요에 따라 다른 Node.js 버전도 추가할 수 있습니다.
 
     steps:
     - uses: actions/checkout@v4
@@ -31,20 +30,20 @@ jobs:
 
     - name: Get Yarn Cache Directory Path
       id: yarn-cache-dir-path
-      run: echo "CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      run: echo "CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_ENV
 
     - name: Cache Yarn Dependencies
       uses: actions/cache@v2
       id: yarn-cache
       with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.CACHE_DIR }}
+        path: ${{ env.CACHE_DIR }}
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-v3.6.4
         restore-keys: |
           ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-
 
     - name: Install Dependencies
       run: |
-        if [[ ${{ steps.yarn-cache.outputs.cache-hit }} != 'true' ]]; then
+        if [[ "${{ steps.yarn-cache.outputs.cache-hit }}" != 'true' || ! -d "node_modules" ]]; then
           yarn install
         fi
 
