@@ -8,55 +8,52 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [18.16.x]
+        # 필요에 따라 다른 Node.js 버전도 추가할 수 있습니다.
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup Node 18.16.x
+    - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18.16.x'
-        cache: 'yarn'
+        node-version: ${{ matrix.node-version }}
+
+    - name: Enable Corepack
+      run: corepack enable
 
     - name: Set Yarn Version
-      id: set-version
-      run: |
-        yarn set version 3.6.4
-        echo "YARN_VERSION=$(yarn -v)" >> $GITHUB_OUTPUT
+      run: corepack prepare yarn@3.6.4 --activate
 
-    - name: Get cache dir path
+    - name: Get Yarn Cache Directory Path
       id: yarn-cache-dir-path
       run: echo "CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
-    - name: Yarn cache
+    - name: Cache Yarn Dependencies
       uses: actions/cache@v2
       id: yarn-cache
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.CACHE_DIR }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ steps.set-version.outputs.YARN_VERSION }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-v3.6.4
         restore-keys: |
           ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-
 
-    - name: Install dependencies
+    - name: Install Dependencies
       run: |
-        CACHE_HIT="${{ steps.yarn-cache.outputs.cache-hit }}"
-        NODE_MODULES_EXISTS=$(test -d "node_modules" && echo "true" || echo "false")
-        if [[ "$CACHE_HIT" != 'true' || "$NODE_MODULES_EXISTS" == 'false' ]]; then
+        if [[ ${{ steps.yarn-cache.outputs.cache-hit }} != 'true' ]]; then
           yarn install
         fi
 
-    - name: Build project
+    - name: Build Project
       run: yarn build
 
-    - name: Run tests
+    - name: Run Tests
       run: yarn test
 
-    - name: Deploy project
+    - name: Deploy Project
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: yarn deploy
