@@ -75,7 +75,20 @@ const ProductCard = ({ id, brand, description, price, imageUrl, addToCart, openM
   const handleAddToCart = (e) => {
     e.preventDefault();
     setIsAdded(!isAdded);
-    addToCart(id, !isAdded);
+
+    if (isAdded) {
+      return;
+    }
+
+    const product = {
+      id,
+      brand,
+      description,
+      price,
+      imageUrl,
+    };
+
+    addToCart(product, 1);
   };
 
   const handleBuy = (e) => {
@@ -89,7 +102,7 @@ const ProductCard = ({ id, brand, description, price, imageUrl, addToCart, openM
       <ProductInfo>
         <ProductBrand>{brand}</ProductBrand>
         <ProductDescription>{description}</ProductDescription>
-        <ProductPrice>{price}원</ProductPrice>
+        <ProductPrice>{price.toLocaleString()}원</ProductPrice>
         <AddButton onClick={handleAddToCart} isAdded={isAdded}>
           {isAdded ? '담김!' : '담기'}
         </AddButton>

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as MinusButton } from '../assets/icons/minus_button.svg';
 import { ReactComponent as PlusButton } from '../assets/icons/plus_button.svg';
+import { useCart } from './CartContext';
 
 const DetailContainer = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 350px;
-  
+
   @media (max-width: 400px) {
     width: 300px;
   }
@@ -63,10 +64,11 @@ const AddToCartButton = styled.button`
   font-weight: 600;
 `;
 
-const ProductDetailPage = ({ products, addToCart }) => {
+const ProductDetailPage = ({ products }) => {
   const { id } = useParams();
   const product = products.find(p => p.id === parseInt(id));
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const handleDecrease = () => {
     if (quantity > 1) setQuantity(quantity - 1);
@@ -77,8 +79,13 @@ const ProductDetailPage = ({ products, addToCart }) => {
   };
 
   const handleAddToCart = () => {
-    // addToCart(product.id, quantity);
-    addToCart(product.id, 0);
+    addToCart({
+      id: product.id,
+      brand: product.brand,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl
+    }, quantity);
   };
 
   return (
@@ -88,7 +95,7 @@ const ProductDetailPage = ({ products, addToCart }) => {
         <ProductInfo>
           <div style={{ fontSize: '30px', fontFamily: 'Montserrat', fontWeight: 700 }}>{product.brand}</div>
           <div style={{ fontSize: '16px', fontFamily: 'Montserrat', fontWeight: 400, marginTop: '7px' }}>{product.description}</div>
-          <div style={{ fontSize: '20px', fontFamily: 'Montserrat', fontWeight: 500, marginTop: '10px' }}>{product.price}원</div>
+          <div style={{ fontSize: '20px', fontFamily: 'Montserrat', fontWeight: 500, marginTop: '10px' }}>{product.price.toLocaleString()}원</div>
         </ProductInfo>
         <QuantitySelector>
           <QuantityButton onClick={handleDecrease}>

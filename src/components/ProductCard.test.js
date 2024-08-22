@@ -6,7 +6,7 @@ const product = {
   id: 1,
   brand: '브랜드A',
   description: '편안하고 착용감이 좋은 신발',
-  price: '35,000',
+  price: 35000,
   imageUrl: '/assets/images/product_image1.jpg'
 };
 
