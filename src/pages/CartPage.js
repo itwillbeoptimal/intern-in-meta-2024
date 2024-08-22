@@ -20,7 +20,6 @@ const ItemList = styled.ul`
 
 const Item = styled.li`
   display: flex;
-  margin-bottom: 0px;
   border-bottom: 1px solid lightgray;
   padding: 20px 0;
 `;
@@ -76,14 +75,12 @@ const Quantity = styled.div`
 const Summary = styled.div`
   font-family: Sansation;
   font-weight: 700;
-  margin-top: 20px;
 `;
 
 const SummaryRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
 `;
 
 const CheckoutButton = styled.button`
@@ -94,9 +91,9 @@ const CheckoutButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 48px;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
-  margin-top: 40px;
+  margin-top: 35px;
 `;
 
 const CartItem = ({item, onUpdateQuantity}) => (
@@ -126,20 +123,20 @@ const CartPage = () => {
           <CartItem key={item.id} item={item} onUpdateQuantity={updateQuantity}/>
         ))}
       </ItemList>
-      <Summary style={{borderBottom: '1px solid lightgray'}}>
-        <SummaryRow>
-          <span style={{ fontWeight: 500 }}>상품 금액</span>
-          <span style={{ fontSize: 20 }}>{total.toLocaleString()}원</span>
+      <Summary style={{borderBottom: '1px solid lightgray', marginBottom: 12}}>
+        <SummaryRow style={{marginBottom: 7}}>
+          <span style={{ fontWeight: 600 }}>상품 금액</span>
+          <span style={{ fontSize: 24 }}>{total.toLocaleString()}원</span>
         </SummaryRow>
-        <SummaryRow>
-          <span style={{ fontWeight: 500 }}>배송비</span>
-          <span style={{ fontSize: 20 }}>{shipping.toLocaleString()}원</span>
+        <SummaryRow style={{marginBottom: 12}}>
+          <span style={{ fontWeight: 600 }}>배송비</span>
+          <span style={{ fontSize: 24 }}>{shipping.toLocaleString()}원</span>
         </SummaryRow>
       </Summary>
       <Summary>
         <SummaryRow>
-          <div style={{ fontWeight: 500 }}>총 금액</div>
-          <div style={{ fontSize: 20 }}>{(total + shipping).toLocaleString()}원</div>
+          <div style={{ fontWeight: 600 }}>총 금액</div>
+          <div style={{ fontSize: 24 }}>{(total + shipping).toLocaleString()}원</div>
         </SummaryRow>
       </Summary>
       <CheckoutButton>결제하기</CheckoutButton>
