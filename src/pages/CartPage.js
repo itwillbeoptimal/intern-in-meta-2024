@@ -125,7 +125,7 @@ const CartPage = ({openMyCardsModal}) => {
   return (
     <PageContainer>
       <div style={{fontSize: '30px', fontWeight: 800, marginBottom: '7px'}}>장바구니</div>
-      <div style={{fontSize: '16px', fontWeight: 400, marginBottom: '15px'}}>현재 {items.length}개의 상품이 있습니다.</div>
+      <div style={{fontSize: '16px', fontWeight: 400, marginBottom: '15px'}}>현재 {total}개의 상품이 있습니다.</div>
       <ItemList>
         {items.map(item => (
           <CartItem key={item.id} item={item} onUpdateQuantity={updateQuantity}/>
