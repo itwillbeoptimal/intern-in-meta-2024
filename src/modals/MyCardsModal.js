@@ -7,6 +7,8 @@ const ModalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
 `;
 
 const CardList = styled.ul`

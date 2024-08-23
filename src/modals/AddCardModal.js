@@ -1,19 +1,23 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import CreditCard from "../components/CreditCard";
+import {ReactComponent as QuestionButton} from "../assets/icons/question_button.svg";
 
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 350px;
+  max-width: 300px;
+  justify-content: center;
 `;
 
 const Label = styled.div`
@@ -137,20 +141,6 @@ const AddCardModal = ({ onAddCard, onClose }) => {
     e.preventDefault();
 
     const fullCardNumber = cardNumber.join('');
-
-    if (fullCardNumber.length !== 16) {
-      alert("카드 번호를 정확히 입력하여 주십시오.");
-      return;
-    }
-    if (expiryYear.length !== 2) {
-      alert("만료일 연도를 정확히 입력하여 주십시오.");
-      return;
-    }
-    if (cvc.length !== 3) {
-      alert("보안 코드를 정확히 입력하여 주십시오.");
-      return;
-    }
-
     const fullPasswordPrefix = passwordPrefix.join('');
     onAddCard({ cardNumber: fullCardNumber, expiry: `${expiryMonth} / ${expiryYear}`, cvc, cardOwner, passwordPrefix: fullPasswordPrefix });
   };
@@ -177,6 +167,7 @@ const AddCardModal = ({ onAddCard, onClose }) => {
               type={index < 2 ? "text" : "password"}
               value={cardNumber[index]}
               onChange={(e) => handleCardNumberChange(index, e.target.value)}
+              minLength="4"
               maxLength="4"
               required
             />
@@ -192,8 +183,9 @@ const AddCardModal = ({ onAddCard, onClose }) => {
             onChange={handleExpiryMonthChange}
             onBlur={handleExpiryMonthBlur}
             ref={expiryMonthRef}
-            required
+            minLength="2"
             maxLength="2"
+            required
           />
           <Input
             style={{ width: "3ch", textAlign: "center" }}
@@ -202,19 +194,23 @@ const AddCardModal = ({ onAddCard, onClose }) => {
             placeholder="YY"
             onChange={handleExpiryYearChange}
             ref={expiryYearRef}
-            required
+            minLength="2"
             maxLength="2"
+            required
           />
         </ExpiryInputContainer>
         <Label> 보안 코드(CVC/CVV) </Label>
-        <Input
-          style={{ width: "4.5ch", textAlign: "center", letterSpacing: 3 }}
-          type="password"
-          value={cvc}
-          onChange={(e) => setCvc(e.target.value.replace(/\D/g, '').slice(0, 3))}
-          required
-          maxLength="3"
-        />
+        <div style={{display: "flex", alignItems: "center"}}>
+          <Input
+            style={{ width: "4.5ch", textAlign: "center", letterSpacing: 3 }}
+            type="password"
+            value={cvc}
+            onChange={(e) => setCvc(e.target.value.replace(/\D/g, '').slice(0, 3))}
+            required
+            maxLength="3"
+          />
+          <QuestionButton style={{marginBottom: 10, marginLeft: 10}} />
+        </div>
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
           <Label> 카드 소유자 이름 </Label>
           <Label> {cardOwner.length + " / 30"} </Label>
