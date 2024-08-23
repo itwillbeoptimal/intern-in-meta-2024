@@ -4,7 +4,7 @@ import { useCart } from "./CartContext";
 import { ReactComponent as MinusButton } from '../assets/icons/minus_button.svg';
 import { ReactComponent as PlusButton } from '../assets/icons/plus_button.svg';
 
-const Page = styled.div`
+const PageContainer = styled.div`
   font-family: sans-serif;
   padding: 23px;
 `;
@@ -115,7 +115,7 @@ const CartPage = () => {
   const {items, updateQuantity, total = 0, shipping = 0} = useCart();
 
   return (
-    <Page>
+    <PageContainer>
       <div style={{fontSize: '30px', fontWeight: 800, marginBottom: '7px'}}>장바구니</div>
       <div style={{fontSize: '16px', fontWeight: 400, marginBottom: '15px'}}>현재 {items.length}개의 상품이 있습니다.</div>
       <ItemList>
@@ -140,7 +140,7 @@ const CartPage = () => {
         </SummaryRow>
       </Summary>
       <CheckoutButton>결제하기</CheckoutButton>
-    </Page>
+    </PageContainer>
   );
 };
 
