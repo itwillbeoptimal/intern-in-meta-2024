@@ -123,7 +123,7 @@ const App = () => {
             <Route path="/" element={<ProductListPage products={products}
                                                       openMyCardsModal={openMyCardsModal}/>}/>
             <Route path="/product/:id" element={<ProductDetailPage products={products} />}/>
-            <Route path="/cart" element={<CartPage/>}/>
+            <Route path="/cart" element={<CartPage openMyCardsModal={openMyCardsModal}/>}/>
           </Routes>
           {modalStack.length > 0 && (
             <Modal

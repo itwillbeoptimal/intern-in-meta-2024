@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useCart } from "./CartContext";
-import { ReactComponent as MinusButton } from '../assets/icons/minus_button.svg';
-import { ReactComponent as PlusButton } from '../assets/icons/plus_button.svg';
+import {useCart} from "./CartContext";
+import {ReactComponent as MinusButton} from '../assets/icons/minus_button.svg';
+import {ReactComponent as PlusButton} from '../assets/icons/plus_button.svg';
 
 const PageContainer = styled.div`
   font-family: sans-serif;
@@ -87,7 +87,7 @@ const CheckoutButton = styled.button`
   width: 100%;
   padding: 15px;
   background: #242424;
-  box-shadow: 0 10px 20px 0 rgba(48, 48, 48, 0.25);  
+  box-shadow: 0 10px 20px 0 rgba(48, 48, 48, 0.25);
   color: #fff;
   border: none;
   border-radius: 48px;
@@ -103,16 +103,24 @@ const CartItem = ({item, onUpdateQuantity}) => (
       <ItemName>{item.brand}</ItemName>
       <ItemPrice>{parseFloat(item.price).toLocaleString()}원</ItemPrice>
       <QuantityControl>
-        <MinusButton style={{cursor: "pointer"}} onClick={() => onUpdateQuantity(item.id, -1)} />
+        <MinusButton style={{cursor: "pointer"}} onClick={() => onUpdateQuantity(item.id, -1)}/>
         <Quantity>{item.quantity}</Quantity>
-        <PlusButton style={{cursor: "pointer"}} onClick={() => onUpdateQuantity(item.id, 1)} />
+        <PlusButton style={{cursor: "pointer"}} onClick={() => onUpdateQuantity(item.id, 1)}/>
       </QuantityControl>
     </ItemDetails>
   </Item>
 );
 
-const CartPage = () => {
+const CartPage = ({openMyCardsModal}) => {
   const {items, updateQuantity, total = 0, shipping = 0} = useCart();
+
+  const handleCheckoutButtonClick = () => {
+    if (total === 0) {
+      alert('장바구니에 담긴 상품이 없습니다!');
+      return;
+    }
+    openMyCardsModal();
+  }
 
   return (
     <PageContainer>
@@ -125,21 +133,21 @@ const CartPage = () => {
       </ItemList>
       <Summary style={{borderBottom: '1px solid lightgray', marginBottom: 12}}>
         <SummaryRow style={{marginBottom: 7}}>
-          <span style={{ fontWeight: 600 }}>상품 금액</span>
-          <span style={{ fontSize: 24 }}>{total.toLocaleString()}원</span>
+          <span style={{fontWeight: 600}}>상품 금액</span>
+          <span style={{fontSize: 24}}>{total.toLocaleString()}원</span>
         </SummaryRow>
         <SummaryRow style={{marginBottom: 12}}>
-          <span style={{ fontWeight: 600 }}>배송비</span>
-          <span style={{ fontSize: 24 }}>{shipping.toLocaleString()}원</span>
+          <span style={{fontWeight: 600}}>배송비</span>
+          <span style={{fontSize: 24}}>{shipping.toLocaleString()}원</span>
         </SummaryRow>
       </Summary>
       <Summary>
         <SummaryRow>
-          <div style={{ fontWeight: 600 }}>총 금액</div>
-          <div style={{ fontSize: 24 }}>{(total + shipping).toLocaleString()}원</div>
+          <div style={{fontWeight: 600}}>총 금액</div>
+          <div style={{fontSize: 24}}>{(total + shipping).toLocaleString()}원</div>
         </SummaryRow>
       </Summary>
-      <CheckoutButton>결제하기</CheckoutButton>
+      <CheckoutButton onClick={handleCheckoutButtonClick}>결제하기</CheckoutButton>
     </PageContainer>
   );
 };
