@@ -206,8 +206,9 @@ const AddCardModal = ({ onAddCard, onClose }) => {
             type="password"
             value={cvc}
             onChange={(e) => setCvc(e.target.value.replace(/\D/g, '').slice(0, 3))}
-            required
             maxLength="3"
+            minLength="3"
+            required
           />
           <QuestionButton style={{marginBottom: 10, marginLeft: 10}} />
         </div>

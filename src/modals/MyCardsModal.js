@@ -22,23 +22,19 @@ const CardList = styled.ul`
 
 const CardItem = styled.li`
   cursor: pointer;
-  transition: transform 0.2s;
 `;
 
 const AddCardButton = styled.div`
-  align-content: center;
   background-color: #E5E5E5;
-  border: none;
   border-radius: 5px;
   color: #575757;
   cursor: pointer;
-  display: flex;
   font-size: 30px;
-  height: 120px;
-  justify-content: center;
-  text-align: center;
+  min-height: 120px;
+  max-height: 120px;
   width: 200px;
-  align-items: center;
+  text-align: center;
+  align-content: center;
 `;
 
 
@@ -47,9 +43,9 @@ const PayButton = styled.button`
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  color: black;
   font-size: 12px;
-  height: auto;
-  margin: 20px 0;
+  margin: 20px 0 10px;
   padding: 10px 20px;
   width: 200px;
 `;
