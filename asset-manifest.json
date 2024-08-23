@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/intern-in-meta-2024/static/css/main.58462fbc.css",
-    "main.js": "/intern-in-meta-2024/static/js/main.451d322d.js",
+    "main.js": "/intern-in-meta-2024/static/js/main.4dd54d12.js",
     "static/media/question_button.svg": "/intern-in-meta-2024/static/media/question_button.8079ee37db54a964676c57b24bfd7e70.svg",
     "static/media/basket_icon.svg": "/intern-in-meta-2024/static/media/basket_icon.5b90360df170a195ad0dd9c3b873051e.svg",
     "index.html": "/intern-in-meta-2024/index.html",
@@ -11,10 +11,10 @@
     "static/media/back_button.svg": "/intern-in-meta-2024/static/media/back_button.884f753c05366e8b85836fec89733c20.svg",
     "static/media/minus_button.svg": "/intern-in-meta-2024/static/media/minus_button.3f102b1eabcec04eb8918c367312d002.svg",
     "main.58462fbc.css.map": "/intern-in-meta-2024/static/css/main.58462fbc.css.map",
-    "main.451d322d.js.map": "/intern-in-meta-2024/static/js/main.451d322d.js.map"
+    "main.4dd54d12.js.map": "/intern-in-meta-2024/static/js/main.4dd54d12.js.map"
   },
   "entrypoints": [
     "static/css/main.58462fbc.css",
-    "static/js/main.451d322d.js"
+    "static/js/main.4dd54d12.js"
   ]
 }
