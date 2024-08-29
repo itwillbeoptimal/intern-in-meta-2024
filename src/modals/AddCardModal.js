@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import styled from 'styled-components';
 import CreditCard from "../components/CreditCard";
 import {ReactComponent as QuestionButton} from "../assets/icons/question_button.svg";
@@ -73,7 +73,7 @@ const CardPreview = styled.div`
   margin-bottom: 20px;
 `;
 
-const AddCardModal = ({ onAddCard, onClose }) => {
+const AddCardModal = ({onAddCard, onClose}) => {
   const [cardNumber, setCardNumber] = useState(['', '', '', '']);
   const [expiryMonth, setExpiryMonth] = useState('');
   const [expiryYear, setExpiryYear] = useState('');
@@ -101,20 +101,21 @@ const AddCardModal = ({ onAddCard, onClose }) => {
       value = value.slice(0, 2);
     }
 
-    if (value.length === 1) {
+    if (value > 12) {
+      value = '12'
       setExpiryMonth(value);
-    } else if (value.length === 2) {
-      if (parseInt(value, 10) > 12) {
-        setExpiryMonth('12');
-      } else {
-        setExpiryMonth(value);
-      }
+    } else {
+      setExpiryMonth(value);
     }
   };
 
   const handleExpiryMonthBlur = () => {
     if (expiryMonth.length === 1) {
-      setExpiryMonth('0' + expiryMonth);
+      if (expiryMonth !== "0") {
+        setExpiryMonth('0' + expiryMonth);
+      } else {
+        setExpiryMonth("01")
+      }
     }
   };
 
@@ -142,7 +143,13 @@ const AddCardModal = ({ onAddCard, onClose }) => {
 
     const fullCardNumber = cardNumber.join('');
     const fullPasswordPrefix = passwordPrefix.join('');
-    onAddCard({ cardNumber: fullCardNumber, expiry: `${expiryMonth} / ${expiryYear}`, cvc, cardOwner, passwordPrefix: fullPasswordPrefix });
+    onAddCard({
+      cardNumber: fullCardNumber,
+      expiry: `${expiryMonth} / ${expiryYear}`,
+      cvc,
+      cardOwner,
+      passwordPrefix: fullPasswordPrefix
+    });
   };
 
   return (
@@ -161,7 +168,7 @@ const AddCardModal = ({ onAddCard, onClose }) => {
         <CardNumberContainer>
           {[0, 1, 2, 3].map((index) => (
             <Input
-              style={{ width: "5ch", textAlign: "center" }}
+              style={{width: "5ch", textAlign: "center"}}
               key={index}
               ref={inputRefs[index]}
               type={index < 2 ? "text" : "password"}
@@ -176,7 +183,7 @@ const AddCardModal = ({ onAddCard, onClose }) => {
         <Label> 만료일 </Label>
         <ExpiryInputContainer>
           <Input
-            style={{ width: "3ch", textAlign: "center" }}
+            style={{width: "3ch", textAlign: "center"}}
             type="text"
             value={expiryMonth}
             placeholder="MM"
@@ -188,7 +195,7 @@ const AddCardModal = ({ onAddCard, onClose }) => {
             required
           />
           <Input
-            style={{ width: "3ch", textAlign: "center" }}
+            style={{width: "3ch", textAlign: "center"}}
             type="text"
             value={expiryYear}
             placeholder="YY"
@@ -202,7 +209,7 @@ const AddCardModal = ({ onAddCard, onClose }) => {
         <Label> 보안 코드(CVC/CVV) </Label>
         <div style={{display: "flex", alignItems: "center"}}>
           <Input
-            style={{ width: "4.5ch", textAlign: "center", letterSpacing: 3 }}
+            style={{width: "4.5ch", textAlign: "center", letterSpacing: 3}}
             type="password"
             value={cvc}
             onChange={(e) => setCvc(e.target.value.replace(/\D/g, '').slice(0, 3))}
@@ -210,7 +217,7 @@ const AddCardModal = ({ onAddCard, onClose }) => {
             minLength="3"
             required
           />
-          <QuestionButton style={{marginBottom: 10, marginLeft: 10}} />
+          <QuestionButton style={{marginBottom: 10, marginLeft: 10}}/>
         </div>
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
           <Label> 카드 소유자 이름 </Label>
